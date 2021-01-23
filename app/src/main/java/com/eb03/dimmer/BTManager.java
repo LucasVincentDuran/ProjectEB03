@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class BTManager extends Transceiver {
@@ -22,14 +23,19 @@ public class BTManager extends Transceiver {
     private ConnectThread mConnectThread = null;
     private WritingThread mWritingThread = null;
 
+    public BTManager(BluetoothAdapter adapter){
+        mAdapter=adapter;
+    }
 
     @Override
     public void connect(String id) {
+        attachFrameProcessor(new FrameProcessor());
         BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(id);
         disconnect();
         mConnectThread = new ConnectThread(device);
         setState(STATE_CONNECTING);
         mConnectThread.start();
+
     }
 
 
@@ -41,7 +47,10 @@ public class BTManager extends Transceiver {
 
     @Override
     public void send(byte[] b) {
-
+        mFrameProcessor= new FrameProcessor();
+        byte[] f=mFrameProcessor.toFrame(b);
+        System.out.println(Arrays.toString(f));
+        mWritingThread.write(f);
     }
 
     /**
@@ -90,6 +99,7 @@ public class BTManager extends Transceiver {
      */
     private class WritingThread extends Thread{
         private OutputStream mOutStream;
+        private ByteRingBuffer buffer;
 
         public WritingThread(BluetoothSocket mSocket) {
             try {
@@ -97,18 +107,27 @@ public class BTManager extends Transceiver {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            buffer=new ByteRingBuffer(2048);
         }
 
         @Override
         public void run() {
             while(mSocket != null){
-
-                mOutStream.write();
+                if (buffer.bytesToRead()>0){
+                    try {
+                        mOutStream.write(buffer.get());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
 
         // déclarer une ref vers un buffer circulaire
 
+        public void write(byte b[]){
+            buffer.put(b);
+        }
 
     }
 

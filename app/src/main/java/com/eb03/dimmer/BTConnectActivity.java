@@ -41,6 +41,7 @@ public class BTConnectActivity extends AppCompatActivity implements View.OnClick
     private ProgressBar mProgressBar;
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mBroadcastRegistered;
+    private OscilloManager mOscilloManager;
 
     private enum Action {START, STOP};
 
@@ -49,6 +50,7 @@ public class BTConnectActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_b_t_connect);
 
+        mOscilloManager=OscilloManager.getInstance();
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -130,10 +132,12 @@ public class BTConnectActivity extends AppCompatActivity implements View.OnClick
         }
 
         // lecture de l'adresse du device : récupération des 17 derniers caractères
-        if(info.length()>17) {
-            info = info.substring(info.length()-17);
-            intent.putExtra("device",info);
-            setResult(RESULT_OK,intent);
+        if (info.length()>17){
+            info=info.substring(info.length()-17);
+            intent.putExtra("device", info);
+            setResult(RESULT_OK, intent);
+            mOscilloManager.attachTransceiver(new BTManager(mBluetoothAdapter));
+            mOscilloManager.connectTrasceiver(info);
             finish();
             return;
         }

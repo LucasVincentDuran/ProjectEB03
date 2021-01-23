@@ -9,7 +9,7 @@ public abstract class Transceiver {
 
    private int mState;
    private TransceiverListener mTransceiverListener;
-   private FrameProcessor mFrameProcessor;
+   protected FrameProcessor mFrameProcessor;
 
 
    public void setTransceiverListener(TransceiverListener transceiverListener){

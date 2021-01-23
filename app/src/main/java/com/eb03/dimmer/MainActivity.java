@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +25,32 @@ public class MainActivity extends AppCompatActivity {
     private final static int PERMISSIONS_REQUEST_CODE = 0;
     private final static String[] BT_DANGEROUS_PERMISSIONS = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
     private TextView mStatus;
+    private SeekBar mSlider;
+    private OscilloManager mOscilloManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mOscilloManager= OscilloManager.getInstance();
         mStatus = findViewById(R.id.status);
+        mSlider=findViewById(R.id.slider);
+        mSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mOscilloManager.setCallibrationDutyCycle((byte) progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         verifyBtRights();
     }
 
