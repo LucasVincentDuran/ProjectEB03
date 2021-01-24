@@ -12,6 +12,9 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.UUID;
 
+/**
+ * Clasee heritée de Transciever et qui permet la gestion de la communication Bluetooth
+ */
 public class BTManager extends Transceiver {
 
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -27,6 +30,11 @@ public class BTManager extends Transceiver {
         mAdapter=adapter;
     }
 
+    /**
+     * Permet la connexion avec un device
+     * @param id
+     *          L'id du device auquel on veut se connecter
+     */
     @Override
     public void connect(String id) {
         attachFrameProcessor(new FrameProcessor());
@@ -44,7 +52,11 @@ public class BTManager extends Transceiver {
 
     }
 
-
+    /**
+     * Permet de formater les trames de données grace au FrameProcessor et de les envoyer à traves le WritingThread
+     * @param b
+     *          Bytes de données à envoyer
+     */
     @Override
     public void send(byte[] b) {
         mFrameProcessor= new FrameProcessor();
@@ -84,7 +96,9 @@ public class BTManager extends Transceiver {
         }
     }
 
-
+    /**
+     * Fonction qui permet l'instanciation des threads de lecture/ecriture
+     */
     private void startReadWriteThreads(){
         // instanciation d'un thread de lecture
 

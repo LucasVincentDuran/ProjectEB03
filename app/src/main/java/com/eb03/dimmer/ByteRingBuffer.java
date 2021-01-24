@@ -2,7 +2,9 @@ package com.eb03.dimmer;
 
 import java.nio.BufferOverflowException;
 
-
+/**
+ * Buffer circulaire qui est utilisé pour l'envoi des données
+ */
 public class ByteRingBuffer {
     public byte[] buffer = null;
 
@@ -17,6 +19,11 @@ public class ByteRingBuffer {
         this.available = 0;
     }
 
+    /**
+     * Permet d'ajouter un byte au buffer
+     * @param b
+     *          byte que l'on veut ajouter
+     */
     public void put(byte b){
 
         if(available < capacity){
@@ -31,13 +38,22 @@ public class ByteRingBuffer {
         throw new BufferOverflowException();
     }
 
+    /**
+     * Permet d'ajouter un tableau de byte au buffer
+     * @param b
+     *          Tableau de byte que l'on veut ajouter
+     */
     public void put(byte b[]){
         for (int i=0; i<b.length; i++){
             put(b[i]);
         }
     }
 
-
+    /**
+     * Permet de recuperer une valeur du buffer
+     * @return
+     *          Valeur courante du buffer
+     */
     public byte get() {
         if(available == 0){
             return (byte) -1;
@@ -51,6 +67,11 @@ public class ByteRingBuffer {
         return nextObj;
     }
 
+    /**
+     * Permet de recuperer toutes les valeurs du buffer
+     * @return
+     *          Ensemble des valeus stockées dans le buffer
+     */
     public byte[] getAll(){
         if(available == 0){
             return null;
@@ -64,6 +85,10 @@ public class ByteRingBuffer {
         return result;
     }
 
+    /**
+     * Donne le nombre de valeurs stockées dans le buffer
+     * @return
+     */
     public int bytesToRead(){
         return available;
     }

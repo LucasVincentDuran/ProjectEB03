@@ -24,7 +24,9 @@ import android.widget.Toast;
 
 import java.util.Set;
 
-
+/**
+ * Activity qui permet la connexion bluetooth avec l'oscilloscope
+ */
 public class BTConnectActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
 
@@ -120,6 +122,14 @@ public class BTConnectActivity extends AppCompatActivity implements View.OnClick
         }*/
     }
 
+    /**
+     * Fonction declanchée lorsque l'utilisateur click sur un element de la liste
+     * @param adapterView
+     * @param view
+     *              Element sur lequel l'utilisateur a clické
+     * @param i
+     * @param l
+     */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent();
@@ -147,6 +157,11 @@ public class BTConnectActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+    /**
+     * Gestion du bouton de scan pour commencer la recherches des appareils bluetooth
+     * @param view
+     *          View ayant declenché l'event
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -180,7 +195,9 @@ public class BTConnectActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-
+    /**
+     * Baculement du scan bluetooth
+     */
     private void toggleBtScan(){
         if(mScann.getText().equals("Scanner")){
             btScan(Action.START);
@@ -194,6 +211,10 @@ public class BTConnectActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    /**
+     * Scan des appareils bluetooth
+     * @param startstop
+     */
     private void btScan(Action startstop){
         if(startstop == Action.START){
             IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);

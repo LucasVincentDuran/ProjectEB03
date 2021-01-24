@@ -3,6 +3,9 @@ package com.eb03.dimmer;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
+/**
+ * Permet la gestion des Frames pour le protocole bluetooth
+ */
 public class FrameProcessor {
     private byte[] txFrame;
     private byte[] rxDate;
@@ -11,6 +14,13 @@ public class FrameProcessor {
 
     }
 
+    /**
+     * Permet la création des trames bluetooth
+     * @param payload
+     *              Tableau de bytes à inserer dans la trame
+     * @return
+     *          Trame  suivant le protocole et contenant les bytes à envoyer
+     */
     public byte[] toFrame(byte[] payload){
 
         //HEADER AND LENGTH

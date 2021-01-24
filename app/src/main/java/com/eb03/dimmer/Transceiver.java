@@ -1,5 +1,8 @@
 package com.eb03.dimmer;
 
+/**
+ * Classe abstraite qui perrmet l'envoi de données vers l'oscilloscope
+ */
 public abstract class Transceiver {
 
     public static final int STATE_NOT_CONNECTED = 0; // non connecté
@@ -16,6 +19,11 @@ public abstract class Transceiver {
        mTransceiverListener = transceiverListener;
    }
 
+    /**
+     * Permet d'attacher un FrameProcessor qui gère le protocole de communication
+     * @param frameProcessor
+     *                      FrameProcessor que l'on sohaite attacher
+     */
    public void attachFrameProcessor(FrameProcessor frameProcessor){
        mFrameProcessor = frameProcessor;
    }
@@ -29,6 +37,11 @@ public abstract class Transceiver {
         return mState;
     }
 
+    /**
+     * Permet de changer l'etat du transceiver
+     * @param state
+     *              Nouvel etat du transceiver
+     */
     public void setState(int state) {
         mState = state;
         if(mTransceiverListener != null){

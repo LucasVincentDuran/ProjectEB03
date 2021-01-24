@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import static android.os.Build.VERSION.SDK_INT;
 
+/**
+ * Activity principale qui permet de chenger le rapport cyclique grace au Slider
+ */
 public class MainActivity extends AppCompatActivity {
 
     private final static int BT_CONNECT_CODE = 1;
@@ -74,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Verification des droits bluetooth
+     */
     private void verifyBtRights(){
         if(BluetoothAdapter.getDefaultAdapter() == null){
             Toast.makeText(this,"Cette application nécessite un adaptateur BT",Toast.LENGTH_LONG).show();
@@ -90,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Gestion des autorisation Bluetooth
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == PERMISSIONS_REQUEST_CODE){
@@ -102,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Recuperation du code de retour de BTActivity
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
